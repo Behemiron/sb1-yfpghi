@@ -1,0 +1,20 @@
+RewriteEngine On
+
+# Защита файлов базы данных
+<FilesMatch "\.(db|sqlite)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Защита директории data
+<DirectoryMatch "^/data/">
+    Order Allow,Deny
+    Deny from all
+</DirectoryMatch>
+
+# Если файл или директория существуют, используем их
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Все запросы направляем на index.php
+RewriteRule ^(.*)$ index.php [L,QSA]
